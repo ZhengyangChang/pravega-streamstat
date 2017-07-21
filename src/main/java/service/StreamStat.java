@@ -208,12 +208,15 @@ public class StreamStat {
         // segments
         PrintHelper.format(PrintHelper.Color.BLUE,"Segments:%n");
 
-        List<SegmentRecord> segmentRecords = zk.getSegmentData();
+        List<String> segments = zk.getSegments();
 
-        for (SegmentRecord segmentRecord:
-                segmentRecords) {
+
+        for (String segment:
+                segments) {
 
             // get the segment records
+            SegmentRecord segmentRecord = zk.getSegmentRecord(segment);
+
             Date startTime = new Date(segmentRecord.getStartTime());
             PrintHelper.format("Segment #%s:\tStart Time: %s%n",
                     segmentRecord.getSegmentNumber(),

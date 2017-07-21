@@ -72,13 +72,14 @@ class ZKHelper {
         return getChild(CONTROLLER_PATH);
     }
 
-    List<SegmentRecord> getSegmentData(){
-        byte[] data = getData(segmentPath);
+    List<String> getSegments(){
+        return getChild(segmentPath);
 
-        List<SegmentRecord> ret = new ArrayList<>();
-        for (int i = 0; i < data.length ; i += 28)
-            ret.add(SegmentRecord.parse(data, i));
-        return ret;
+    }
+
+    SegmentRecord getSegmentRecord(String segmentId){
+        byte[] data = getData(segmentPath + "/" + segmentId);
+        return SegmentRecord.parse(data, 0);
     }
 
     Optional<Host> getHostForContainer(int containerId) {
