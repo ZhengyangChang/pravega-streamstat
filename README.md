@@ -19,17 +19,21 @@ to run program.
 
 ## Instructions
 ```
-usage: bin/StreamStat
+usage: StreamStat
  -a,--all        Display all of the container logs.
  -c,--cluster    Display the cluster information.
- -d,--data       Display all the data in the stream.
- -e,--explicit   Wait until get the explicit log.
- -f,--fence      [WARNING] this option will fence out pravega cluster
+ -d,--data       Display all the data in the stream. (By default, only
+                 print data length)
+ -e,--explicit   Wait until get the explicit log, since the last log might
+                 be locked by the pravega cluster
  -h,--help       Print this help.
- -i,--input      Input stream name to get status.
- -l,--log        Display all the logs in tier-1.
- -s,--storage    Only print data in storage.
- -t,--txn        Print transactions info.
+ -i,--input      Input stream name to get status. (You can also set stream
+                 name in config file stream="[scope]/[stream]")
+ -l,--log        Display the logs related to given stream in tier-1.
+ -r,--recover    Recover mode, if zookeeper's metadata is inconsistent with 
+                 storage, recreate the metadata.
+ -s,--storage    Give the offset to start with.
+ -t,--txn        Print information about all the transactions.
  ```
 
 
@@ -44,13 +48,13 @@ Or copy the pravega cluster configure file to this location.
 
 | **Options** | **Feature**                                                 | 
 |-------------|-------------------------------------------------------------|
-| **-a**      | Display all the logs in container, should be used with -l.  |
+| **-a**      | Display all the logs in container (not only the logs related to the given stream), should be used with -l.  |
 | **-c**      | Display the information of the pravega cluster.             |
 | **-d**      | In both tier, print out the data stored. Otherwise program will only print datalength.|
 | **-e**      | Since some log might be locked by the pravega cluster, it may take some time to wait until the cluster release the log, program won't wait by default, but to get the explicit log, you should use this option to wait until the explicit log is read.|
-| **-f**      | Dangerous! This option is only used on an offline cluster, this will fence out the cluster's writing to get explicit log. Using this on a living cluster will cause unexpected effect on cluster.|
 | **-h**      | Display help message.           |
 | **-i**      | Input the stream you want to inspect. You can also set stream in config.properties |
+| **-r**      | Recover mode, if zookeeper's metadata is inconsistent with storage, recreate the metadata.|
 | **-l**      | Display the logs related to given stream. |
-| **-s**      | Only show the status in tier-2 storage. |
+| **-s**      | Give the offset to start with. |
 | **-t**      | Display all the transactions related to given stream. |
